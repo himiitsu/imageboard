@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${messages.get(0).getText()}">
+    </title>
+<body>
+    <thead th:text="${messages.get(0).getText()}"></thead>
+    <form th:method="post">
+        <input type="text" name="text">
+        <button type="submit">Отправить сообщение</button>
+    </form>
+
+    <tbody>
+        <th:block th:each="message : ${messages}">
+            <tr>
+                <td><span th:text="${message.getCurrentId()}"></span></td>
+                <td><span th:text="${message.getText()}"></span></td>
+            </tr><br>
+        </th:block>
+    </tbody>
+    </body>
+</html>

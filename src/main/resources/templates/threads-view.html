@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Убийца двача</title>
+</head>
+    <body>
+
+        <form th:method="post">
+            <input type="text" name="header">
+            <input type="text" name="text">
+            <button name="newThread" type="submit">Создать тред</button>
+        </form>
+
+        <table>
+            <thead>
+            <tr>
+                <th> Тред </th>
+                <th> ОП пост </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${threads.isEmpty()}">
+                <td colspan="2"> Нет доступных тредов </td>
+            </tr>
+            <div>
+                <th:block th:each="thread : ${threads}">
+                    <tr>
+                    <td><span th:text="${thread.getId()}"></span></td>
+                    <td><span th:text="${thread.getHeader()}"> Title </span></td>
+                    <td><span th:text="${thread.getText()}"> Title </span></td>
+                    <form th:object="${thread}" th:method="post">
+                        <td><input type="hidden" th:name="threadId" th:value="*{id}"></td>
+                        <td><button name="inThread" type="submit">В тред</button></td>
+                    </form>
+                    </tr>
+                </th:block>
+            </div>
+            </tbody>
+        </table>
+
+    </body>
+</html>
