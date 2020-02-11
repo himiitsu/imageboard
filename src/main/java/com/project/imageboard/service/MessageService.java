@@ -8,6 +8,7 @@ import org.hibernate.MultiIdentifierLoadAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,24 @@ public class MessageService {
     public void setIdFromDB(List<MessageThread> messageThreads){
         if (messageThreads.size() > 0){
             Message.setId(messageDao.findFirst());
+        }
+    }
+
+    public void threadBump(List<MessageThread> messageThreads){
+        List<Integer> order = threadsDao.sortThreads();
+        for(int i = 0; i < messageThreads.size(); i++){
+            if(messageThreads.get(i).getId() != order.get(i)){
+                int j = 0;
+                MessageThread buffer = messageThreads.get(i);
+                int oldPlace = messageThreads.indexOf(messageThreads.get(i));
+                while(messageThreads.get(j).getId() == order.get(j)){
+                    j++;
+                    if(j == messageThreads.size() - 1) break;
+                }
+                int newPlace = messageThreads.indexOf(messageThreads.get(j));
+                messageThreads.set(oldPlace, messageThreads.get(j));
+                messageThreads.set(newPlace, buffer);
+            }
         }
     }
 
@@ -42,6 +61,7 @@ public class MessageService {
         }
         messageThreads.get(i).getMessages().add(message);
         threadsDao.save(messageThreads.get(i));
+        threadBump(messageThreads);
         return 0;
     }
 
@@ -52,6 +72,7 @@ public class MessageService {
         if (messageThreads.size() > 0){
             System.out.println(messageDao.findFirst());
         }
+        List<Integer> order = threadsDao.sortThreads();
         return messageThreads;
     }
 
