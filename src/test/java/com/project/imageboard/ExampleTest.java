@@ -1,6 +1,6 @@
 package com.project.imageboard;
 
-import com.project.imageboard.api.MessageController;
+//import com.project.imageboard.api.MessageController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ExampleTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private MessageController messageController;
+    //private MessageController messageController;
 
     @Test
     public void test() throws Exception{
