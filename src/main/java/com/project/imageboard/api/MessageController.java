@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class MessageController {
@@ -26,9 +29,14 @@ public class MessageController {
         return "thread-inside";
     }
 
-    @PostMapping("/thread:{id}")
-    public String postMessage(@PathVariable("id") int id, @RequestParam("text") String text){
-        messageService.addMessage(id, text);
+    @PostMapping(value = "/thread:{id}", params = "Post")
+    public String postMessage(@PathVariable("id") int id, @RequestParam(name = "text") String text,
+                              @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+        if (imageFile != null){
+            messageService.addMessage(id, text, imageFile);
+        }
+        else messageService.addMessage(id, text);
         return "redirect:/thread:{id}";
     }
+
 }

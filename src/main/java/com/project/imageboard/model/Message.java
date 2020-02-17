@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Constructor;
+import java.sql.Blob;
 
 @Entity
 public class Message {
@@ -16,6 +19,9 @@ public class Message {
     private int currentId;
 
     private String text;
+
+    @Lob
+    private Byte[] image;
 
     public Message() {
     }
@@ -47,5 +53,13 @@ public class Message {
 
     public String getText() {
         return text;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 }

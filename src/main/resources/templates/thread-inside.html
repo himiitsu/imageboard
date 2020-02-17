@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="${messages.get(0).getText()}">
     </title>
 <body>
     <thead th:text="${messages.get(0).getText()}"></thead>
-    <form th:method="post">
+    <form th:method="post" enctype="multipart/form-data">
         <input type="text" name="text">
-        <button type="submit">Отправить сообщение</button>
+        <input type="file" name="imageFile" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])">
+        <button type="reset" onchange="document.getElementById('preview').src = null">Отменить</button>
+        <button type="submit" name="Post">Отправить сообщение</button><br>
+        <img id="preview" alt="your image" width="100" height="100" />
     </form>
 
     <tbody>
