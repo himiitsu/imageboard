@@ -11,13 +11,16 @@
         <input type="file" name="imageFile" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])">
         <button type="reset" onchange="document.getElementById('preview').src = null">Отменить</button>
         <button type="submit" name="Post">Отправить сообщение</button><br>
-        <img id="preview" alt="your image" width="100" height="100" />
+        <img id="preview" alt="Выберите изображение" width="100" height="100" />
     </form>
 
     <tbody>
         <th:block th:each="message : ${messages}">
             <tr>
                 <td><span th:text="${message.getCurrentId()}"></span></td>
+                <span th:if="${message.getImage() != null}">
+                    <img th:src="@{'data:image/jpeg;base64,'+${message.getBase64String()}}" style="width:100px;height:100px;">
+                </span>
                 <td><span th:text="${message.getText()}"></span></td>
             </tr><br>
         </th:block>

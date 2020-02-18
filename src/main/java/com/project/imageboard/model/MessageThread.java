@@ -31,6 +31,10 @@ public class MessageThread {
         id = messages.get(0).getId();
     }
 
+    public void setImage(byte[] image) {
+        messages.get(0).setImage(image);
+    }
+
     public void setId(int id) {
         this.id = id;
     }

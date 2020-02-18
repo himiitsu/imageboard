@@ -58,6 +58,25 @@ public class MessageService {
         threadsDao.save(new MessageThread(header, text));
     }
 
+    public void addThread(String header, String text, MultipartFile imageFile){
+        MessageThread messageThread = new MessageThread(header, text);
+        try {
+
+            byte[] byteObjects = new byte[imageFile.getBytes().length];
+
+            int j = 0;
+
+            for (byte b : imageFile.getBytes()){
+                byteObjects[j++] = b;
+            }
+
+            messageThread.setImage(byteObjects);
+            threadsDao.save(messageThread);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int addMessage(int id, String text){
         int i = 0;
         List<MessageThread> messageThreads = new ArrayList<>();
@@ -81,7 +100,7 @@ public class MessageService {
         Message message = new Message(text);
         try {
 
-            Byte[] byteObjects = new Byte[imageFile.getBytes().length];
+            byte[] byteObjects = new byte[imageFile.getBytes().length];
 
             int j = 0;
 
@@ -121,11 +140,4 @@ public class MessageService {
         }
         return messageThreads.get(i).getMessages();
     }
-
-//    public void saveImage(Blob imageFile) throws IOException {
-//        String folder = "C:/photos/";
-//        byte[] bytes = imageFile.getBytes();
-//        Path path = Paths.get(folder + imageFile.getOriginalFilename());
-//        Files.write(path, bytes);
-//    }
 }

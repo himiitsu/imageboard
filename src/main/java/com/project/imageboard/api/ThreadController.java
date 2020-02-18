@@ -2,9 +2,11 @@ package com.project.imageboard.api;
 
 import com.project.imageboard.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -28,14 +30,18 @@ public class ThreadController {
 
     @PostMapping(value = "/", params = "newThread")
     public String addThread(@RequestParam("header") String header,
-                            @RequestParam("text") String text)
+                            @RequestParam("text") String text,
+                            @RequestParam(name = "imageThread", required = false) MultipartFile imageThread)
     {
-        messageService.addThread(header, text);
+        if (!imageThread.isEmpty()){
+            messageService.addThread(header, text, imageThread);
+        }
+        else messageService.addThread(header, text);
         return "redirect:/";
     }
 
     @PostMapping(value = "/", params = "inThread")
     public String toThread(@RequestParam("threadId") String thread) {
-        return "redirect:/thread:" + thread;
+        return "redirect:/thread/" + thread;
     }
 }

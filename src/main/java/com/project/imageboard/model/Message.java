@@ -1,14 +1,7 @@
 package com.project.imageboard.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.jpa.repository.Query;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Constructor;
-import java.sql.Blob;
+import java.util.Base64;
 
 @Entity
 public class Message {
@@ -21,7 +14,7 @@ public class Message {
     private String text;
 
     @Lob
-    private Byte[] image;
+    private byte[] image;
 
     public Message() {
     }
@@ -29,7 +22,6 @@ public class Message {
     public Message(String text) {
         currentId = ++id;
         this.text = text;
-        System.out.println("message " + currentId);
     }
 
     public static void setId(int id) {
@@ -55,11 +47,19 @@ public class Message {
         return text;
     }
 
-    public Byte[] getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public String getBase64String(){
+        if(image != null){
+            String encodedFile = Base64.getEncoder().encodeToString(image);
+            return encodedFile;
+        }
+        else return "";
+    }
+
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }
