@@ -33,7 +33,7 @@ public class MessageController {
 
     @PostMapping(value = "/thread/{id}", params = "Post")
     public String postMessage(@PathVariable("id") int id, @RequestParam(name = "text") String text,
-                              @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+                              @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) {
         if (!imageFile.isEmpty()){
             System.out.println("Попал");
             messageService.addMessage(id, text, imageFile);
